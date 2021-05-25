@@ -3,7 +3,7 @@ import c from "./AnswerItem.module.css"
 
 const AnswerItem = (props) => {
     return (
-        <li className={c.AnswerItem}>
+        <li className={c.AnswerItem} onClick={() => props.onAnswerClickHandler(props.answer.id)}>
             {props.answer.text}
         </li>
     )
