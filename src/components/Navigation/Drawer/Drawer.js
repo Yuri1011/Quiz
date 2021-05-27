@@ -1,26 +1,33 @@
 import React from "react";
 import c from "./Drawer.module.css";
 import BackDrop from "../../UI/BackDrop/BackDrop";
+import {NavLink} from "react-router-dom";
 
 const links = [
-    1, 2, 3
+    {to: '/', label: 'Список', exact: true},
+    {to: '/auth', label: 'Авторизация', exact: false},
+    {to: '/quiz-creator', label: 'Создать тест', exact: false},
 ]
 
 class Drawer extends React.Component {
-    renderLinks() {
+    clickHandler = () => {
+        this.props.onClose();
+    }
+
+    renderLinks = () => {
         return links.map((link, index) => {
             return (
                 <li key={index}>
-                    <a>Link {link}</a>
+                    <NavLink to={link.to} exact={link.exact} activeClassName={c.active} onClick={this.clickHandler}>
+                        {link.label}
+                    </NavLink>
                 </li>
             )
         })
     }
 
     render() {
-        const cls = [
-            c.Drawer
-        ]
+        const cls = [c.Drawer]
 
         if (!this.props.isOpen) {
             cls.push(c.close)
