@@ -2,6 +2,7 @@ import React from "react";
 import c from "./Auth.module.css";
 import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
+import is from "is_js";
 
 class Auth extends React.Component {
 
@@ -54,7 +55,7 @@ class Auth extends React.Component {
             isValid = value.trim() !== '' && isValid;
         }
         if (validation.email) {
-
+            isValid = is.email(value) && isValid;
         }
         if (validation.minLength) {
             isValid = value.length >= validation.minLength && isValid;
