@@ -44,7 +44,38 @@ class Auth extends React.Component {
         e.preventDefault();
     }
 
-    onChangeHandler=(event,controlName)=>{
+    validateControl = (value, validation) => {
+        if (!validation) {
+            return true
+        }
+        let isValid = true;
+
+        if (validation.required) {
+            isValid = value.trim() !== '' && isValid;
+        }
+        if (validation.email) {
+
+        }
+        if (validation.minLength) {
+            isValid = value.length >= validation.minLength && isValid;
+        }
+
+        return isValid;
+    }
+
+    onChangeHandler = (event, controlName) => {
+        const formControls = {...this.state.formControls};
+        const control = {...formControls[controlName]};
+
+        control.value = event.target.value;
+        control.touched = true;
+        control.valid = this.validateControl(control.value, control.validation);
+
+        formControls[controlName] = control;
+
+        this.setState({
+            formControls
+        })
 
     }
 
