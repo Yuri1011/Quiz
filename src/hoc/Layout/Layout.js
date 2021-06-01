@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import c from "./Layout.module.css";
-import MenuToggle from "../components/Navigation/MenuToggle";
-import Drawer from "../components/Navigation/Drawer/Drawer";
+import MenuToggle from "../../components/Navigation/MenuToggle";
+import Drawer from "../../components/Navigation/Drawer/Drawer";
 
 class Layout extends Component {
     state = {
