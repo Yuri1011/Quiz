@@ -7,6 +7,7 @@ import is from "is_js";
 class Auth extends React.Component {
 
     state = {
+        isFormValid: false,
         formControls: {
             email: {
                 value: '',
@@ -74,8 +75,14 @@ class Auth extends React.Component {
 
         formControls[controlName] = control;
 
+        let isFormValid = true;
+
+        Object.keys(formControls).forEach((name) => {
+            isFormValid = formControls[name].valid && isFormValid;
+        })
+
         this.setState({
-            formControls
+            formControls, isFormValid
         })
 
     }
@@ -109,8 +116,12 @@ class Auth extends React.Component {
                             this.renderInputs()
                         }
 
-                        <Button type={'success'} onClick={this.loginHandler}>Войти</Button>
-                        <Button type={'primary'} onClick={this.registerHandler}>Авторизация</Button>
+                        <Button type={'success'}
+                                onClick={this.loginHandler}
+                                disabled={!this.state.isFormValid}>Войти</Button>
+                        <Button type={'primary'}
+                                onClick={this.registerHandler}
+                                disabled={!this.state.isFormValid}>Авторизация</Button>
                     </form>
                 </div>
             </div>
