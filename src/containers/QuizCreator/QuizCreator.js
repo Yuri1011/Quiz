@@ -1,7 +1,7 @@
 import React from "react";
 import c from "./QuizCreator.module.css";
 import Button from "../../components/UI/Button/Button";
-import {createControl} from "../../components/form/formFramework";
+import {createControl, validate, validateForm} from "../../components/form/formFramework";
 import Input from "../../components/UI/Input/Input";
 import Auxiliary from "../../hoc/Auxiliary/Auxiliary";
 import Select from "../../components/UI/Select/Select";
@@ -32,21 +32,34 @@ class QuizCreator extends React.Component {
 
     state = {
         quiz: [],
+        isFormValid: false,
         rightAnswerId: 1,
         formControls: createFormControls()
     }
-    submitHandler = event => {
+    submitHandler = (event) => {
         event.preventDefault();
     }
     crateQuizHandler = () => {
 
     }
-    addQuestionHandler = () => {
-
+    addQuestionHandler = (event) => {
+        event.preventDefault();
     }
 
     changeHandler = (value, controlName) => {
+        const formControls = {...this.state.formControls};
+        const control = {...formControls[controlName]};
 
+        control.touched = true;
+        control.value = value;
+        control.valid = validate(control.value, control.validation);
+
+        formControls[controlName] = control;
+
+        this.setState({
+            formControls,
+            isFormValid: validateForm(formControls)
+        })
     }
     renderControls = () => {
         return Object.keys(this.state.formControls).map((controlName, index) => {
@@ -93,8 +106,12 @@ class QuizCreator extends React.Component {
 
                         {select}
 
-                        <Button type={'primary'} onClick={this.addQuestionHandler}>Добавить вопрос</Button>
-                        <Button type={'success'} onClick={this.crateQuizHandler}>Создать тест</Button>
+                        <Button type={'primary'}
+                                disabled={!this.state.isFormValid}
+                                onClick={this.addQuestionHandler}>Добавить вопрос</Button>
+                        <Button type={'success'}
+                                disabled={this.state.quiz.length === 0}
+                                onClick={this.crateQuizHandler}>Создать тест</Button>
                     </form>
                 </div>
             </div>
