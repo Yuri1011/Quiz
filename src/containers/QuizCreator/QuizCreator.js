@@ -39,11 +39,46 @@ class QuizCreator extends React.Component {
     submitHandler = (event) => {
         event.preventDefault();
     }
-    crateQuizHandler = () => {
-
+    crateQuizHandler = (event) => {
+        event.preventDefault();
     }
     addQuestionHandler = (event) => {
         event.preventDefault();
+
+        const quiz = this.state.quiz.concat();
+        const index = quiz.length + 1;
+
+        const questionItem = {
+            question: this.state.formControls.question.value,
+            id: index,
+            rightAnswerId: this.state.rightAnswerId,
+            answers: [
+                {
+                    text: this.state.formControls.option1.value,
+                    id: this.state.formControls.option1.id
+                },
+                {
+                    text: this.state.formControls.option2.value,
+                    id: this.state.formControls.option2.id
+                },
+                {
+                    text: this.state.formControls.option3.value,
+                    id: this.state.formControls.option3.id
+                },
+                {
+                    text: this.state.formControls.option4.value,
+                    id: this.state.formControls.option4.id
+                }
+            ]
+        }
+        quiz.push(questionItem);
+
+        this.setState({
+            quiz,
+            isFormValid: false,
+            rightAnswerId: 1,
+            formControls: createFormControls()
+        })
     }
 
     changeHandler = (value, controlName) => {
